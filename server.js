@@ -1,9 +1,11 @@
 const express = require('express');
-const { dbConnection } = require('./connect/mongo');
+const morgan = require('morgan');
+const {dbConnection} = require('./connect/mongo');
 const config = require('./config/index.config');
 const app = express();
 
 app.use(express.json());
+app.use(morgan('dev'));
 
 // Handle unhandled exceptions
 process.on('uncaughtException', (err) => {
@@ -27,7 +29,7 @@ app.all('*', (req, res, next) => {
 app.use((err, req, res, next) => {
     console.error(err);
     const status = err.status || 500; // Default to 500 Internal Server Error
-    res.status(status).json({ error: err.message, stack: err.stack });
+    res.status(status).json({error: err.message, stack: err.stack});
 });
 
 // Start the server after database connection is established
