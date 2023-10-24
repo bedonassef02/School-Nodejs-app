@@ -1,5 +1,7 @@
-const {body} = require('express-validator')
-const validationExceptionFilter = require('../../../common/filters/validation-exception.filter')
+const {body} = require('express-validator');
+const validationExceptionFilter = require('../../../common/filters/validation-exception.filter');
+const userService = require('../../../user/user.service');
+
 const registerValidator = [
     body('name')
         .notEmpty().withMessage('name is required')
@@ -7,7 +9,13 @@ const registerValidator = [
 
     body('email')
         .notEmpty().withMessage('email is required')
-        .isEmail().withMessage('email is invalid'),
+        .isEmail().withMessage('email is invalid')
+        .custom(async (value) => {
+            const user = await userService.findOne(value);
+            if (user) {
+                return Promise.reject('Email already exists');
+            }
+        }),
 
     body('password')
         .notEmpty().withMessage('password is required')
