@@ -1,7 +1,19 @@
 const express = require('express');
+require('dotenv').config();
+const {dbConnection} = require("./connect/mongo");
+
 
 const app = express();
 
-app.listen(3000, () => {
-    console.log('listening on port 3000');
-})
+const port = process.env.PORT || 3000;
+
+dbConnection
+    .then(
+        console.log('connected to database successfully'),
+        app.listen(port, () => {
+            console.log('listening on port ' + port);
+        }),
+    )
+    .catch((err) => {
+        console.log('db connection error: ' + err);
+    });
