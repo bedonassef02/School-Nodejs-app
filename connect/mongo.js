@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
+const config = require('../config/index.config');
 
-const DATABASE_USERNAME = process.env.DATABASE_USERNAME;
-const DATABASE_NAME = process.env.DATABASE_NAME;
-const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD;
-const DATABASE_URI = process.env.DATABASE_URI.replace(
+const DATABASE_USERNAME = config.dotEnv.DATABASE_USERNAME;
+const DATABASE_NAME = config.dotEnv.DATABASE_NAME;
+const DATABASE_PASSWORD = config.dotEnv.DATABASE_PASSWORD;
+const DATABASE_URI = config.dotEnv.DATABASE_URI.replace(
     '${DATABASE_USERNAME}',
     DATABASE_USERNAME,
 )
