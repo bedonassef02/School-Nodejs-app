@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const UserRole = require('../../common/types/user-role');
 
@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema({
         maxLength: 255,
     },
     role: {
-        type: UserRole,
+        type: String,
         required: true,
         default: UserRole.STUDENT
     },
@@ -29,4 +29,6 @@ const UserSchema = new mongoose.Schema({
     timestamps: true,
 })
 
-export default mongoose.model('User', UserSchema);
+const User= mongoose.model('User', UserSchema);
+
+module.exports = User;
