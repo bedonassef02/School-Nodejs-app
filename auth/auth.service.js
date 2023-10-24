@@ -2,8 +2,7 @@ const userService = require('../user/user.service');
 const passwordService = require('../auth/services/password.service');
 exports.register = async ({name, email, password}) => {
     const hashedPassword = await passwordService.hash(password);
-    const user = await userService.create({name, email, password: hashedPassword});
-    return user;
+    return await userService.create({name, email, password: hashedPassword});
 }
 
 exports.login = async ({email, password}) => {
@@ -11,5 +10,5 @@ exports.login = async ({email, password}) => {
     if (user && await passwordService.compare(password, user.password)) {
         return user;
     }
-    return false;
+    throw new Error('email or password is incorrect');
 }

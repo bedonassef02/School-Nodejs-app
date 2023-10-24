@@ -7,3 +7,9 @@ exports.register = asyncHandler(async (req, res)=>{
     const user = await authService.register({name, email, password});
     res.status(201).json(user);
 });
+
+exports.login = asyncHandler(async (req, res)=>{
+    const {email, password} = req.body;
+    const user = await authService.login({email, password});
+    res.status(200).json(user);
+})
